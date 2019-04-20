@@ -1,0 +1,31 @@
+{
+  "name": "node-crud",
+  "version": "1.0.0",
+  "description": "A simple CRUD app made with NodeJs, ExpressJS and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gurungrahul2/node-CRUD.git"
+  },
+  "keywords": [
+    "crud"
+  ],
+  "author": "Rahul Gurung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gurungrahul2/node-CRUD/issues"
+  },
+  "homepage": "https://github.com/gurungrahul2/node-CRUD#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.5.2",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
