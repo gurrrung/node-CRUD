@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost/nodecrud')
 let db = mongoose.connection;
@@ -25,6 +26,13 @@ let Article = require('./models/article');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Body parser middleware
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+ 
+// parse application/json
+app.use(bodyParser.json())
+
 // Home route
 app.get('/', function( request, response) {
     Article.find({}, function ( error, articles) {
@@ -39,12 +47,30 @@ app.get('/', function( request, response) {
     })
 })
 
-// Add articles route
+// Add get articles route
 app.get('/add', function ( request, response) {
     response.render('add', {
         title: 'Add Stuff'
     })
 })
+
+// Add post articles route
+app.post('/add', function( request, response) {
+    let articles = new Article();
+    articles.title = request.body.title;
+    articles.author = request.body.author;
+    articles.body = request.body.body;
+    
+    articles.save(function(error) {
+        if(error) {
+            console.log(error);
+            return;
+        } else {
+            response.redirect('/');
+        }
+    })
+})
+
 
 // Start server
 app.listen(8100, function() {
