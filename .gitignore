@@ -24,7 +24,8 @@ coverage
 .grunt
 
 # Bower dependency directory (https://bower.io/)
-bower_components
+# I think I should push everything to remote for now :)
+#bower_components
 
 # node-waf configuration
 .lock-wscript

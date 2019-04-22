@@ -2,9 +2,25 @@ doctype html
 html
     head
         title App
+        link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
     body
-        block content
-        br
-        hr
-        footer
-            p Copyright &copy; 2019
+        nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+            a.navbar-brand(href='#') Node-CRUD
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item
+                        a.nav-link(href='/')
+                            | Home 
+                    li.nav-item
+                        a.nav-link(href='/add') Add Article
+
+        .container
+            block content
+            br
+            hr
+            footer
+                p Copyright &copy; 2019
+        script(src='/bower_components/jquery/dist/jquery.js')                
+        script(src='/bower_components/bootstrap/dist/js/bootstrap.js')        
