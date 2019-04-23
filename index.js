@@ -51,7 +51,7 @@ app.get('/', function( request, response) {
 });
 
 // Get single article
-app.get('/:id', function( request, response) {
+app.get('/view/:id', function( request, response) {
     Article.findById(request.params.id, function( error, article) {
         response.render('article', {
             article: article
@@ -68,12 +68,12 @@ app.get('/add', function ( request, response) {
 
 // Add post articles route
 app.post('/add', function( request, response) {
-    let articles = new Article();
-    articles.title = request.body.title;
-    articles.author = request.body.author;
-    articles.body = request.body.body;
+    let article = new Article();
+    article.title = request.body.title;
+    article.author = request.body.author;
+    article.body = request.body.body;
     
-    articles.save(function(error) {
+    article.save(function(error) {
         if(error) {
             console.log(error);
             return;
@@ -83,6 +83,35 @@ app.post('/add', function( request, response) {
     })
 })
 
+// Load edit form
+app.get('/edit/:id', function( request, response) {
+    Article.findById(request.params.id, function( error, article) {
+        response.render('edit', {
+            title: 'Edit Page',
+            article: article
+        })
+    })
+})
+
+// Add edit articles route
+app.post('/edit/:id', function( request, response) {
+
+    let article = {};
+    article.title = request.body.title;
+    article.author = request.body.author;
+    article.body = request.body.body;
+
+    let query = {_id: request.params.id}
+    
+    Article.update(query, article, function(error) {
+        if(error) {
+            console.log(error);
+            return;
+        } else {
+            response.redirect('/');
+        }
+    })
+})
 
 // Start server
 app.listen(8100, function() {
