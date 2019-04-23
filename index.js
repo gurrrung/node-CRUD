@@ -113,6 +113,18 @@ app.post('/edit/:id', function( request, response) {
     })
 })
 
+// Deleting a article
+app.delete('/delete/:id', function( request, response) {
+    let query = {_id: request.params.id}
+
+    Article.remove(query, function(error) {
+        if (error) {
+            console.log(error);
+        }
+        response.send('success');
+    })
+})
+
 // Start server
 app.listen(8100, function() {
     console.log('Server started on port: 8100');
