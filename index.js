@@ -42,9 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Express session middleware
 app.use(session({
     secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    resave: true,
+    saveUninitialized: true
 }))
 
 // Express messages middleware
@@ -53,6 +52,25 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
+
+// Express validator middleware
+// Express Validator Middleware
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
+  
+      while(namespace.length) {
+        formParam += '[' + namespace.shift() + ']';
+      }
+      return {
+        param : formParam,
+        msg   : msg,
+        value : value
+      };
+    }
+}));
 
 // Home route
 app.get('/', function( request, response) {
@@ -86,19 +104,36 @@ app.get('/add', function ( request, response) {
 
 // Add post articles route
 app.post('/add', function( request, response) {
-    let article = new Article();
-    article.title = request.body.title;
-    article.author = request.body.author;
-    article.body = request.body.body;
-    
-    article.save(function(error) {
-        if(error) {
-            console.log(error);
-            return;
-        } else {
-            response.redirect('/');
-        }
-    })
+
+    request.checkBody('title', 'Title is required').notEmpty();
+    request.checkBody('author', 'Author is required').notEmpty();
+    request.checkBody('body', 'Body is required').notEmpty();
+
+    // Get errors
+    let errors = request.validationErrors();
+
+    if (errors) {
+        response.render('add', {
+            title: 'Add article',
+            errors: errors
+        });
+    } else {
+
+        let article = new Article();
+        article.title = request.body.title;
+        article.author = request.body.author;
+        article.body = request.body.body;
+        
+        article.save(function(error) {
+            if(error) {
+                console.log(error);
+                return;
+            } else {
+                request.flash('success', 'Article Added')
+                response.redirect('/');
+            }
+        })
+    };
 })
 
 // Load edit form
@@ -126,6 +161,7 @@ app.post('/edit/:id', function( request, response) {
             console.log(error);
             return;
         } else {
+            request.flash('success', 'Article Updated')
             response.redirect('/');
         }
     })
