@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/gurungrahul2/node-CRUD#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "express": "^4.16.4",
@@ -28,6 +29,8 @@
     "express-session": "^1.16.1",
     "express-validator": "^5.3.1",
     "mongoose": "^5.5.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.3"
   },
   "devDependencies": {

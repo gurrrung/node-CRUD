@@ -90,6 +90,9 @@ app.get('/', function( request, response) {
 let articles = require('./routes/articles');
 app.use('/articles', articles);
 
+let users = require('./routes/users');
+app.use('/users', users);
+
 // Start server
 app.listen(8100, function() {
     console.log('Server started on port: 8100');
